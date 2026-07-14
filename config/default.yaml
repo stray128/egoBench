@@ -1,0 +1,43 @@
+# egobench default config.
+# Paths come from the environment (DATA_ROOT / OUTPUT_ROOT), never hardcoded here,
+# so the same config runs unchanged on the local box and the AWS instance.
+
+datasets:
+  egodex:
+    # Subdir under DATA_ROOT holding fetched EgoDex clip pairs (HDF5 + MP4).
+    subdir: egodex
+    # Ground truth: Vision Pro on-device tracking. Reference-grade for HAND pose.
+    gt_hand: true
+    gt_camera: true
+  stera:
+    subdir: stera
+    # Ground truth: ARKit + LiDAR fusion. Real for CAMERA trajectory only.
+    # Hand annotations are WiLoR-derived (model output), NOT independent GT.
+    gt_hand: false        # do not score hand pose against Stera's own hands
+    gt_camera: true
+
+# Clips selected in Phase 1. Populated by scripts/fetch_samples.py.
+# Spread across motion / lighting / occlusion conditions, no lucky subset.
+clips:
+  egodex: []             # e.g. ["egodex/task017_ep0003", ...]
+  stera: []              # e.g. ["stera/session_0042", ...]
+
+# Which model stages to run, and where each is allowed to run.
+# local = CPU / 6GB laptop GPU. aws = 24GB GPU instance.
+models:
+  mediapipe:   { stage: hand,   space: camera, run_on: [local, aws] }
+  wilor:       { stage: hand,   space: camera, run_on: [local, aws] }
+  hamer:       { stage: hand,   space: camera, run_on: [aws] }
+  mapanything: { stage: world,  space: world,  run_on: [aws] }
+  hawor:       { stage: world,  space: world,  run_on: [aws] }
+
+# Metrics. W-MPJPE is the headline; PA-MPJPE is reported only for contrast.
+metrics:
+  headline: w_mpjpe
+  report: [w_mpjpe, pa_mpjpe, scale_error, ate]
+  # Report per-clip AND per-condition. Never a lone aggregate.
+  breakdown_by: [motion, lighting, occlusion]
+
+# Failure detection v0 signals, correlated against measured W-MPJPE.
+confidence:
+  signals: [reprojection_residual, temporal_jerk, occlusion_fraction, detection_dropout]

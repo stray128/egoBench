@@ -1,0 +1,35 @@
+# Data & outputs, never committed (too large, paths differ local vs AWS)
+# NOTE: publishable figures/CSVs/scores live in results/ (tracked), not outputs/
+data/
+outputs/
+*.npz
+*.mp4
+*.hdf5
+*.h5
+*.ply
+*.rrd
+
+# Run logs / one-off launch scripts / probes, not part of the repo
+*.log
+run_local.sh
+run_all.sh
+probe_stderr.txt
+local_rescue.sh
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Env / secrets
+.env
+
+# OS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/

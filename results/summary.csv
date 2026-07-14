@@ -1,0 +1,5 @@
+method,license,shippable,n_frames,n_tasks,W_median_mm,PA_median_mm,scale_err_median,pct_W_lt_50,pct_W_lt_100
+mediapipe_pnp,Apache-2.0,yes,55448,112,60.9,17.8,-0.072,0.386,0.760
+hamer_pnp,MANO-NC,no,56205,112,76.8,11.1,-0.067,0.292,0.629
+wilor_pnp,CC-BY-NC-ND,no,64089,112,44.8,9.9,-0.071,0.566,0.891
+wilor_owncam,CC-BY-NC-ND,no,64089,112,166.6,9.9,-0.071,0.003,0.088

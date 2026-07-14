@@ -1,0 +1,30 @@
+# Core, pinned so AWS reproduces the local env exactly.
+# Only the torch CUDA build differs between setup_local.sh and setup_aws.sh.
+numpy>=1.26,<2.1
+scipy>=1.11
+opencv-python>=4.9
+h5py>=3.10
+pyyaml>=6.0
+python-dotenv>=1.0
+tqdm>=4.66
+matplotlib>=3.8
+
+# Video decode for MP4 frame extraction (Apple EgoDex minimal loader uses this)
+torchcodec>=0.1
+
+# Visualization / QC (Stera ships .rrd rerun recordings)
+rerun-sdk>=0.16
+
+# HuggingFace dataset access (Stera-10M is gated)
+huggingface-hub>=0.24
+
+# Baseline hand pose, CPU/GPU, commercial-safe (Apache-2.0)
+mediapipe>=0.10
+
+# torch is installed separately per-platform (see setup_local.sh / setup_aws.sh)
+# to pick the correct CUDA vs CPU wheel. Do NOT pin it here.
+
+# Heavy models (WiLoR, HaMeR, MapAnything, HaWoR) are installed as separate
+# research repos on the AWS box only, see scripts/setup_aws.sh. They are NOT
+# pip deps because several pin conflicting versions and carry non-commercial
+# weights; they live behind the interfaces in egobench/models/.
